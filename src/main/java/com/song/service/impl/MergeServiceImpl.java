@@ -3,23 +3,15 @@ package com.song.service.impl;
 import com.song.dao.MergeDao;
 import com.song.pojo.MergeResult;
 import com.song.service.MergeService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Mr.Song
@@ -69,6 +61,7 @@ public class MergeServiceImpl implements MergeService {
         boolean b = mergeDao.mergePdfFiles(fileNames, basePath + "newFile.pdf");
         if (b){
             session.setAttribute("filePath", basePath);
+            session.setAttribute("newName", "newFile.pdf");
         }
         return b?MergeResult.ok("合并成功"):MergeResult.error("合并失败");
     }

@@ -39,17 +39,38 @@
                     dataType: 'json',
                     data: data,
                     success: function (data) {
-                        console.log(data);
-                        window.location.href = "/download";
+                        window.location.href = "/download?downType=1";
                     },
                     error: function (error) {
-                        console.log(error);
+                        //console.log(error);
                     }
                 })
             });
 
             $("#reset").click(function () {
                 $("#tb").empty();
+            });
+            $("#mergeToWord").click(function () {
+                var data = new FormData(document.querySelector("#fmw"));
+                console.log(data);
+                $.post({
+                    url: "/transform",
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        //console.log(data);
+                        if (data.status === 200){
+                            //console.log("hahahahhaha");
+                            window.location.href = "/download?downType=2";
+                        }
+                    },
+                    error: function (error) {
+                        //console.log(error);
+                    }
+                })
             })
         });
 
@@ -60,12 +81,12 @@
 <div align="center" style="margin-top: 50px">
         <form class="form-horizontal" id="fm" method="post" enctype="multipart/form-data">
 
-            <table width="600px" align="center">
+            <table width="700px" align="center">
                 <tbody id="tb">
                     <tr>
                         <td>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">选择文件</label>
+                                <label class="col-sm-2 control-label">选择PDF文件</label>
                                 <div class="col-sm-10">
                                     <input type="file" name="files" class="form-control" placeholder="选择PDF文件">
                                 </div>
@@ -81,7 +102,7 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" id="reset" class="btn btn-primary">重置</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" id="merge" class="btn btn-primary">合并</button>
+                                <button type="button" id="merge" class="btn btn-primary">合并成PDF</button>
                             </div>
                         </div>
                     </td>
@@ -91,6 +112,33 @@
         <!--<form method="post" action="/download">
             <button type="submit" class="btn btn-primary">下载</button>
         </form>-->
+    <h1 style="color: green;font-size: 40px" align="center">PDF转Word</h1>
+    <form class="form-horizontal" id="fmw" method="post" enctype="multipart/form-data">
+
+        <table width="700px" align="center">
+            <tbody id="tb1">
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择PDF文件</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="file" class="form-control" placeholder="选择PDF文件">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tr align="center">
+                <td>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" id="mergeToWord" class="btn btn-primary">Pdf转Word</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
     </div>
 
 </body>
